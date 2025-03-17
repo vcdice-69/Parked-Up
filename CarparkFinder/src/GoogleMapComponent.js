@@ -28,8 +28,8 @@ const GoogleMapComponent = () => {
   const [carparks, setCarparks] = useState([]);
   const [selectedCarpark, setSelectedCarpark] = useState(null);
   const [favorites, setFavorites] = useState([]);
-  const [showFilters, setShowFilters] = useState(false); // Toggle filter UI
-  
+  const [showFilters, setShowFilters] = useState(false);
+
   // Filters
   const [availableLotsFilter, setAvailableLotsFilter] = useState(0);
   const [gantryHeightFilter, setGantryHeightFilter] = useState(0);
@@ -52,13 +52,13 @@ const GoogleMapComponent = () => {
 
     const mergeData = async () => {
       const [availabilityMap, csvCarparks] = await Promise.all([fetchAvailability(), fetchCarparkData()]);
-    
+
       const parsedCarparks = csvCarparks
         .map((row) => {
           const x = parseFloat(row.x_coord);
           const y = parseFloat(row.y_coord);
           if (isNaN(x) || isNaN(y)) return null;
-    
+
           const coords = convertCoordToLatLong(x, y);
           const availableLots = availabilityMap[row.car_park_no] || 0;
           const gantryHeight = parseFloat(row.gantry_height) || 0;
@@ -115,28 +115,30 @@ const GoogleMapComponent = () => {
   return (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
       <div style={{ display: "flex", height: "100vh", position: "relative" }}>
-        {/* Filter Toggle Button */}
+        {/* Filter Toggle Button (Bottom-Left) */}
         <img
           src="/filter-icon.jpg"
           alt="Filter"
           onClick={() => setShowFilters(!showFilters)}
           style={{
             position: "absolute",
-            top: "10px",
-            left: "10px",
-            width: "40px",
-            height: "40px",
+            bottom: "20px",
+            left: "20px",
+            width: "50px",
+            height: "50px",
             cursor: "pointer",
             zIndex: 1000,
+            borderRadius: "50%",
+            boxShadow: "2px 2px 10px rgba(0,0,0,0.3)",
           }}
         />
 
-        {/* Sidebar for Filters (Hidden when not active) */}
+        {/* Sidebar for Filters (Bottom-Left) */}
         <div
           style={{
             position: "absolute",
-            left: showFilters ? "10px" : "-320px", // Slide in/out effect
-            top: "60px",
+            left: showFilters ? "20px" : "-320px", // Slide in/out effect
+            bottom: "80px",
             width: "300px",
             padding: "15px",
             background: "#fff",
