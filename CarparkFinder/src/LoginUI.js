@@ -6,20 +6,31 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const users = JSON.parse(localStorage.getItem("users")) || [];
 
-    const user = users.find((user) => user.email === email && user.password === password);
+    try {
+      const response = await fetch("http://127.0.0.1:5000/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    if (!user) {
-      alert("Invalid email or password!");
-      return;
+      const data = await response.json();
+
+      if (data.success) {
+        localStorage.setItem("loggedInUser", JSON.stringify({ email }));
+        alert("Login successful!");
+        navigate("/");
+      } else {
+        alert(data.message);
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      alert("Something went wrong. Please try again.");
     }
-
-    localStorage.setItem("loggedInUser", JSON.stringify(user));
-    alert("Login successful!");
-    navigate("/");
   };
 
   return (

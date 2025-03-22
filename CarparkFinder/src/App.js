@@ -12,7 +12,7 @@ function App() {
       <div className="App">
         <nav>
           <h1>Carpark Finder</h1>
-          <ul>
+          <ul className="nav-links">
             <li><Link to="/">Home</Link></li>
             <li><Link to="/favorites">Favorites</Link></li>
             <li><Link to="/signup">Signup</Link></li>
