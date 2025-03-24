@@ -4,7 +4,7 @@ import re
 import os
 
 
-dbpath = "/Users/administrator/Desktop/PROJECTS/CarparkFinder/src/acc_database.db"
+dbpath = "./acc_database.db"
 
 def execute_dml(query, data):
     """for manipulation of data (e.g. insert, delete)"""

@@ -1,10 +1,10 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import "./App.css";
-import GoogleMapComponent from "./GoogleMapComponent";
-import Signup from "./SignUpUI";
-import Login from "./LoginUI";
-import Favorites from "./FavouritesUI";
+import MapViewComponent from "./Components/MapViewComponent";
+import Signup from "./Components/SignUpUI";
+import Login from "./Components/LoginUI";
+import Favorites from "./Components/FavouritesUI";
 
 function App() {
   return (
@@ -21,7 +21,7 @@ function App() {
         </nav>
 
         <Routes>
-          <Route path="/" element={<GoogleMapComponent />} />
+          <Route path="/" element={<MapViewComponent />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/favorites" element={<Favorites />} />
