@@ -5,12 +5,29 @@ import { fetchCarparkDataWithAvailability } from "../Services/CarparkDataService
 import CarparkFiltersPanel from "./CarparkFiltersPanel/CarparkFiltersPanel";
 import MapView from "./MapView/MapView";
 
+/**
+ * MapViewComponent
+ *
+ * This component renders an interactive map displaying carpark locations with filtering options.
+ * It fetches carpark data with availability and allows users to apply filters to refine the displayed results.
+ *
+ * @component
+ * @returns {JSX.Element} The main map view with carpark markers and filter controls.
+ */
 const MapViewComponent = () => {
+  /** @type {[{ lat: number, lng: number }, Function]} */
   const [center, setCenter] = useState({ lat: 1.3521, lng: 103.8198 });
+
+  /** @type {[Array, Function]} */
   const [carparks, setCarparks] = useState([]);
+
+  /** @type {[Object|null, Function]} */
   const [selectedCarpark, setSelectedCarpark] = useState(null);
+
+  /** @type {[boolean, Function]} */
   const [showFilters, setShowFilters] = useState(false);
 
+  // Use the custom hook to manage carpark filtering logic
   const {
     filteredCarparks,
     availableLotsFilter,
@@ -21,10 +38,19 @@ const MapViewComponent = () => {
     toggleCarparkType,
   } = useCarparkFilter(carparks);
 
+  /**
+   * Fetches user location and carpark data on component mount.
+   * - Retrieves user's geolocation if permitted.
+   * - Fetches carpark data and availability.
+   */
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
-        (position) => setCenter({ lat: position.coords.latitude, lng: position.coords.longitude }),
+        (position) =>
+          setCenter({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          }),
         () => console.error("Geolocation permission denied. Using default location.")
       );
     }
@@ -40,8 +66,9 @@ const MapViewComponent = () => {
   return (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
       <div style={{ display: "flex", height: "100vh", position: "relative" }}>
+        {/* Button to toggle filter panel */}
         <img
-          src="/filter-icon.jpg"
+          src="../Assets/filter-icon.jpg"
           alt="Filter"
           onClick={() => setShowFilters(!showFilters)}
           style={{
@@ -57,6 +84,7 @@ const MapViewComponent = () => {
           }}
         />
 
+        {/* Carpark Filters Panel */}
         {showFilters && (
           <CarparkFiltersPanel
             availableLotsFilter={availableLotsFilter}
@@ -68,6 +96,7 @@ const MapViewComponent = () => {
           />
         )}
 
+        {/* MapView displaying filtered carparks */}
         <MapView filteredCarparks={filteredCarparks} setSelectedCarpark={setSelectedCarpark} selectedCarpark={selectedCarpark} />
       </div>
     </LoadScript>

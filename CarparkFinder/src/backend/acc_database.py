@@ -45,7 +45,7 @@ def check_email(email):
         return False
     
 def check_phone_no(phone_no: str):
-    phone_no = phone_no.replace(" ", "")
+    phone_no = str(phone_no).replace(" ", "")
     
     if (phone_no.isdigit()) and (len(phone_no) == 8):
         return True
@@ -70,17 +70,23 @@ def check_password(password):
                 lower+=1            
 
             # counting uppercase alphabets
-            if (i.isupper()):
+            elif (i.isupper()):
                 upper+=1            
 
             # counting digits
-            if (i.isdigit()):
+            elif (i.isdigit()):
                 number+=1            
 
             # counting the mentioned special characters
-            if i in symbols:
+            elif i in symbols:
                 symbol+=1
-
+    '''print("Check Password")
+    print(lower+symbol+upper+number==len(password))
+    print(lower>=1)
+    print(upper>=1)
+    print(symbol>=1)
+    print(number>=1)
+    print("End Check Password")'''
     if (lower>=1 and upper>=1 and symbol>=1 and number>=1 and lower+symbol+upper+number==len(password)):
         return True
     else:
@@ -152,7 +158,7 @@ def update_details(acc_email, new_record):
     email = new_record["email"]
     phone_no = new_record["phone_no"]
     password = new_record["password"]
-
+    
     if check_email(email) and check_phone_no(phone_no) and check_password(password):
         try:
             update = '''
@@ -171,12 +177,14 @@ def update_details(acc_email, new_record):
                     acc_email)
             
             execute_dml(update, data)
-        except Exception as e:
-            print(e)
 
-    # invalid email/phone_no/pw        
+            # Return True if update is successful
+            return True
+        except Exception as e:
+            print("Error during update:", e)
+            return False  # Return False in case of an error
     else:
-        return False
+        return False  # Return False if validation fails (email/phone/password invalid)
 
 def delete_acc(email):
     # acc does not exist

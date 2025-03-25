@@ -1,38 +1,18 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
+import { useSignup } from "./useSignup";
 
+/**
+ * Signup Component
+ * 
+ * This component renders a signup form where users can enter their details
+ * (username, email, phone number, and password). It utilizes the `useSignup` hook
+ * to manage form state and handle the signup process.
+ * 
+ * @component
+ * @returns {JSX.Element} The Signup form component.
+ */
 const Signup = () => {
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-
-  const handleSignup = async (e) => {
-    e.preventDefault();
-
-    const userDetails = { username, email, phone_no: phoneNumber, password };
-
-    try {
-      const response = await fetch("http://localhost:5000/signup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(userDetails),
-      });
-
-      const data = await response.json();
-
-      if (data.success) {
-        alert("Signup successful! Please login.");
-        navigate("/login");
-      } else {
-        alert(data.message);
-      }
-    } catch (error) {
-      console.error("Error during signup:", error);
-      alert("Something went wrong. Please try again.");
-    }
-  };
+  const { username, setUsername, email, setEmail, phoneNumber, setPhoneNumber, password, setPassword, handleSignup } = useSignup();
 
   return (
     <div>
