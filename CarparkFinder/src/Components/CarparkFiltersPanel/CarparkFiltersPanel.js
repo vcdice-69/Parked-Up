@@ -52,7 +52,7 @@ const CarparkFiltersPanel = ({ availableLotsFilter, setAvailableLotsFilter, gant
         <div key={type}>
           <input
             type="checkbox"
-            checked={selectedCarparkTypes.has(type)}
+            checked={selectedCarparkTypes.includes(type)}
             onChange={() => toggleCarparkType(type)}
           />
           <label>{type}</label>

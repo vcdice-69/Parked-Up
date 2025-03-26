@@ -1,5 +1,5 @@
 import React from "react";
-import { GoogleMap, LoadScript, OverlayView } from "@react-google-maps/api";
+import { GoogleMap, Marker, OverlayView } from "@react-google-maps/api";
 import { bubbleStyle } from "../../Utility Classes/bubbleStyle";
 import CarparkInfoWindow from "../CarparkInfoWindow/CarparkInfoWindow";
 
@@ -8,9 +8,19 @@ const mapContainerStyle = {
   height: "100vh",
 };
 
-const MapView = ({ filteredCarparks, setSelectedCarpark, selectedCarpark }) => {
+const MapView = ({ center, filteredCarparks, setSelectedCarpark, selectedCarpark }) => {
   return (
-    <GoogleMap mapContainerStyle={mapContainerStyle} center={{ lat: 1.3521, lng: 103.8198 }} zoom={14}>
+    <GoogleMap mapContainerStyle={mapContainerStyle} center={center} zoom={16}>
+      {/* User's current location marker (Blue dot) */}
+      <Marker
+        position={center}
+        icon={{
+          url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+          scaledSize: new window.google.maps.Size(40, 40), // Adjust size
+        }}
+      />
+
+      {/* Carpark markers */}
       {filteredCarparks.map((carpark, index) => (
         <OverlayView key={index} position={{ lat: carpark.lat, lng: carpark.lng }} mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}>
           <div style={bubbleStyle(carpark.availableLots)} onClick={() => setSelectedCarpark(carpark)}>
@@ -18,7 +28,11 @@ const MapView = ({ filteredCarparks, setSelectedCarpark, selectedCarpark }) => {
           </div>
         </OverlayView>
       ))}
-      <CarparkInfoWindow selectedCarpark={selectedCarpark} onClose={() => setSelectedCarpark(null)} />
+
+      {/* Carpark Info Window */}
+      {selectedCarpark && (
+        <CarparkInfoWindow selectedCarpark={selectedCarpark} onClose={() => setSelectedCarpark(null)} />
+      )}
     </GoogleMap>
   );
 };
