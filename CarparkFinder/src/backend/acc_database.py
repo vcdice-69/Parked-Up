@@ -1,7 +1,7 @@
 import sqlite3
 import re
 
-dbpath = "C:/2006-FDAF-G2-main/CarparkFinder/src/acc_database.db"
+dbpath = "./acc_database.db"
 
 def execute_dml(query, data):
     """for manipulation of data (e.g. insert, delete)"""
@@ -22,15 +22,11 @@ def execute_dql(query, data):
         result = c.fetchall()
 
     if result:
-        if len(result) == 1:
-            result = dict(result[0])
-            return result
-        else:
-            for i in range(len(result)):
-                result[i] = dict(result[i])
-            return result
+        # Ensure result is converted to a list of dictionaries
+        return [dict(row) for row in result]
     else:
         return None
+
     
 def check_email(email):
     regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
@@ -92,7 +88,9 @@ def find_acc(email):
                 '''
     
     result = execute_dql(find_acc, (email,))
-    return result
+    if result and isinstance(result, list) and len(result) > 0:
+        return result[0]  # Return the first (and ideally only) record from the list
+    return None
 
 def new_acc(username, email, phone_no, password):
     valid_email = check_email(email)
@@ -142,54 +140,97 @@ def update_details(acc_email, new_record):
     email: email that account is registered under
     new_record: dict containing ALL updated details (username, email, phone_no, password)
     """
-    # acc does not exist
+    # Check if the account exists
     if find_acc(acc_email) is None:
+        print("Account does not exist")
         return False
 
-    email = new_record["email"]
+    new_email = new_record["email"]
     phone_no = new_record["phone_no"]
     password = new_record["password"]
 
-    if check_email(email) and check_phone_no(phone_no) and check_password(password):
+    if check_email(new_email) and check_phone_no(phone_no) and check_password(password):
         try:
+            # Update Accounts table
             update = '''
-                    UPDATE "Accounts" SET
-                    "username" = ?,
-                    "email" = ?,
-                    "phone_no" = ?,
-                    "password" = ?
-                    WHERE "email" = ?
-                    '''
-
-            data = (new_record["username"],
-                    email,
-                    phone_no,
-                    password,
-                    acc_email)
-            
+                UPDATE "Accounts" SET
+                "username" = ?,
+                "email" = ?,
+                "phone_no" = ?,
+                "password" = ?
+                WHERE "email" = ?
+            '''
+            data = (
+                new_record["username"],
+                new_email,
+                phone_no,
+                password,
+                acc_email
+            )
             execute_dml(update, data)
-        except Exception as e:
-            print(e)
 
-    # invalid email/phone_no/pw        
+            # If email has changed, update the Favourites table
+            if acc_email != new_email:
+                update_fav_email(acc_email, new_email)
+
+            print(f"User with email {acc_email} updated successfully.")
+            return True
+        except Exception as e:
+            print(f"Error during update: {e}")
+            return False
     else:
+        print("Invalid email/phone number/password")
+        return False
+
+def update_fav_email(old_email, new_email):
+    """Update all favourite records to reflect the new email"""
+    try:
+        update_fav = '''
+            UPDATE "Favourites"
+            SET "user_email" = ?
+            WHERE "user_email" = ?
+        '''
+        execute_dml(update_fav, (new_email, old_email))
+        print(f"Favourites updated from {old_email} to {new_email}")
+        return True
+    except Exception as e:
+        print(f"Error updating favourites: {e}")
+        return False
+
+
+def delete_all_favs(email):
+    """Delete all favourited carparks of a user"""
+    try:
+        query = '''
+                DELETE FROM "Favourites"
+                WHERE "user_email" = ?;
+                '''
+        execute_dml(query, (email,))
+        return True
+    except Exception as e:
+        print(e)
         return False
 
 def delete_acc(email):
-    # acc does not exist
+    """Delete user account and their favourites"""
     if find_acc(email) is None:
         return False
-    
+
     try:
-        delete_acc = '''
-                    DELETE FROM "Accounts"
-                    WHERE "email" = ?;
-                    '''
-        execute_dml(delete_acc, (email,))
+        # First, delete all their favourite carparks
+        delete_all_favs(email)
+
+        # Then delete the account
+        query = '''
+                DELETE FROM "Accounts"
+                WHERE "email" = ?;
+                '''
+        execute_dml(query, (email,))
         return True
-    
     except Exception as e:
         print(e)
+        return False
+
 
 def add_fav(email, carpark_no):
     try:
@@ -228,12 +269,14 @@ def get_all_favs(email):
                         WHERE "Favourites"."user_email" = ?;
                         '''
         result = execute_dql(get_all_favs, (email,))
-        
+        print("DEBUG: Result:", result)
+
         if result is None:
             return None
         else:
             fav_list = []
             for fav_record in result:
+                print("DEBUG: fav_record:", fav_record)
                 fav_list.append(fav_record["carpark_no"])
             return fav_list
 
@@ -270,7 +313,7 @@ def get_all_favs(email):
 # add_fav("marvin@gmail.com", "ABC123")
 
 # part 6 (delete fav)
-# delete_fav("marvin@gmail.com", "ABC")
+# delete_fav("ethan@gmail.com", "ACM")
 
 # part 7 (get all favs)
 # print(get_all_favs("marvin@gmail.com"))

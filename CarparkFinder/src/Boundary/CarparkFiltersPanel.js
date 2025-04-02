@@ -1,6 +1,13 @@
 import React from "react";
 
-const CarparkFiltersPanel = ({ availableLotsFilter, setAvailableLotsFilter, gantryHeightFilter, setGantryHeightFilter, selectedCarparkTypes, toggleCarparkType }) => {
+const CarparkFiltersPanel = ({
+  availableLotsFilter,
+  setAvailableLotsFilter,
+  gantryHeightFilter,
+  setGantryHeightFilter,
+  selectedCarparkTypes = [], // Default to an empty array to prevent undefined errors
+  toggleCarparkType,
+}) => {
   const carparkTypes = [
     "BASEMENT CAR PARK",
     "MULTI-STOREY CAR PARK",
@@ -52,7 +59,7 @@ const CarparkFiltersPanel = ({ availableLotsFilter, setAvailableLotsFilter, gant
         <div key={type}>
           <input
             type="checkbox"
-            checked={selectedCarparkTypes.includes(type)}
+            checked={selectedCarparkTypes?.includes(type) || false} // Use optional chaining to prevent undefined errors
             onChange={() => toggleCarparkType(type)}
           />
           <label>{type}</label>

@@ -1,7 +1,7 @@
 // CarparkDataService.js
 import { fetchAvailability } from './AvailabilityEntity';
 import { fetchCarparkData } from './CarparkDataEntity';
-import { convertCoordToLatLong } from '../Utility Classes/CoordinateConverter';
+import { convertCoordToLatLong } from '../Utility/CoordinateConverter';
 
 const fetchCarparkDataWithAvailability = async () => {
   const [availabilityMap, csvCarparks] = await Promise.all([fetchAvailability(), fetchCarparkData()]);

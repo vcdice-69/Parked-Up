@@ -1,16 +1,6 @@
 import React from "react";
-import { useSignup } from "./useSignup";
+import { useSignup } from "../../Control/useSignup";
 
-/**
- * Signup Component
- * 
- * This component renders a signup form where users can enter their details
- * (username, email, phone number, and password). It utilizes the `useSignup` hook
- * to manage form state and handle the signup process.
- * 
- * @component
- * @returns {JSX.Element} The Signup form component.
- */
 const Signup = () => {
   const { username, setUsername, email, setEmail, phoneNumber, setPhoneNumber, password, setPassword, handleSignup } = useSignup();
 

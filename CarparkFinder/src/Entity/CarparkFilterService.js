@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getDistance } from "../Utility/DistanceCalculator";
 
 const carparkTypes = [
   "BASEMENT CAR PARK",
@@ -9,10 +10,10 @@ const carparkTypes = [
 ];
 
 // Custom hook for carpark filtering
-export const useCarparkFilter = (carparks, userLocation, distanceFilter) => {
+export const useCarparkFilter = (carparks = [], userLocation, distanceFilter) => {
   const [availableLotsFilter, setAvailableLotsFilter] = useState(0);
   const [gantryHeightFilter, setGantryHeightFilter] = useState(0);
-  const [selectedCarparkTypes, setSelectedCarparkTypes] = useState([...carparkTypes]); // Initialize as an array
+  const [selectedCarparkTypes, setSelectedCarparkTypes] = useState([...carparkTypes]); // Ensure it always initializes as an array
 
   const toggleCarparkType = (type) => {
     setSelectedCarparkTypes((prev) => {
@@ -24,27 +25,15 @@ export const useCarparkFilter = (carparks, userLocation, distanceFilter) => {
     });
   };
 
-  // Function to calculate distance between user and carpark
-  const getDistance = (lat1, lng1, lat2, lng2) => {
-    const toRad = (value) => (value * Math.PI) / 180;
-    const R = 6371; // Radius of the Earth in km
-    const dLat = toRad(lat2 - lat1);
-    const dLng = toRad(lng2 - lng1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) * Math.sin(dLng / 2);
-    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a)); // Distance in km
-  };
-
   const filteredCarparks = carparks
     .filter(
       (carpark) =>
         carpark.availableLots >= availableLotsFilter &&
-        carpark.gantryHeight >= gantryHeightFilter && // Minimum gantry height filter
-        selectedCarparkTypes.includes(carpark.carparkType) && // Check using .includes() for array
+        carpark.gantryHeight >= gantryHeightFilter &&
+        selectedCarparkTypes.includes(carpark.carparkType) && // Ensure selectedCarparkTypes is always an array
         (userLocation
           ? getDistance(userLocation.lat, userLocation.lng, carpark.lat, carpark.lng) <= distanceFilter
-          : true) // Filter by distance if user location exists
+          : true)
     );
 
   return {
