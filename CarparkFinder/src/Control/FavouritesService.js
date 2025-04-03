@@ -1,4 +1,4 @@
-import { addFavourite, removeFavourite, fetchFavourites } from "../Entity/FavouritesBackendInteraction";
+import { addFavourite, removeFavourite, fetchFavourites } from "./FavouritesAPI";
 
 export const toggleFavourite = async (email, carparkNo, userFavourites) => {
   if (userFavourites.includes(carparkNo)) {

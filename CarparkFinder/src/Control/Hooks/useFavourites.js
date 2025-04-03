@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { fetchFavourites, addFavourite, removeFavourite } from '../Entity/FavouritesBackendInteraction';
+import { fetchFavourites, addFavourite, removeFavourite } from '../FavouritesAPI';
 
 export const useFavourites = (user) => {
   const [userFavourites, setUserFavourites] = useState(new Set()); // Use Set for better performance

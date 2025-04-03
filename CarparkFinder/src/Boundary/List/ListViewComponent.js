@@ -1,20 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { getCarparks } from "../Control/CarparkService";
-import { getUserFavourites, toggleFavourite } from "../Control/FavouritesService";
-import { useGeolocation } from "../Control/useGeolocation";
-import { useCarparkList } from "../Control/useCarparkList";
-import { useCarparkFilter } from "../Entity/CarparkFilterService";
-import CarparkFiltersPanel from "./CarparkFiltersPanel"; // Import the CarparkFiltersPanel
+import { getCarparks } from "../../Control/CarparkController";
+import { getUserFavourites, toggleFavourite } from "../../Control/FavouritesService";
+import { useGeolocation } from "../../Control/Hooks/useGeolocation";
+import { useCarparkList } from "../../Control/Hooks/useCarparkList";
+import { useCarparkFilter } from "../../Control/Hooks/useCarparkFilter";
+import CarparkFiltersPanel from "../CarparkFiltersPanel"; 
+import CarparkSearch from "../CarparkSearch"; // ✅ Import CarparkSearch
 
 const ListViewComponent = ({ user }) => {
   const [carparks, setCarparks] = useState([]);
   const [favourites, setFavourites] = useState([]);
-  const [expandedCarpark, setExpandedCarpark] = useState(null); // This keeps track of the carpark number that's expanded
+  const [expandedCarpark, setExpandedCarpark] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
   const [distanceFilter, setDistanceFilter] = useState(10);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const { center: userLocation } = useGeolocation();
-  
+  const { center: userLocation, setCenter } = useGeolocation();
+
   // Filters
   const {
     availableLotsFilter,
@@ -26,7 +28,7 @@ const ListViewComponent = ({ user }) => {
   } = useCarparkFilter(carparks);
 
   // Use carpark list with filters applied
-  const { filteredCarparks, searchTerm, setSearchTerm } = useCarparkList(
+  const { filteredCarparks } = useCarparkList(
     carparks,
     userLocation,
     distanceFilter,
@@ -34,6 +36,21 @@ const ListViewComponent = ({ user }) => {
     gantryHeightFilter,
     selectedCarparkTypes
   );
+
+  // Apply search filter after other filters
+  const [filteredCarparksByAddress, setFilteredCarparksByAddress] = useState(filteredCarparks);
+
+  useEffect(() => {
+    if (searchQuery) {
+      setFilteredCarparksByAddress(
+        filteredCarparks.filter((carpark) =>
+          carpark.address.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+    } else {
+      setFilteredCarparksByAddress(filteredCarparks);
+    }
+  }, [searchQuery, filteredCarparks]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -54,18 +71,26 @@ const ListViewComponent = ({ user }) => {
     setFavourites(updatedFavourites);
   };
 
-  // Handle expanding the carpark item to show more details
   const handleExpandCarpark = (carparkNumber) => {
     setExpandedCarpark(expandedCarpark === carparkNumber ? null : carparkNumber);
   };
 
   return (
     <div className="list-view-container">
+      {/* ✅ Integrate CarparkSearch */}
+      <CarparkSearch
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        filteredCarparksByAddress={filteredCarparksByAddress}
+        setCenter={setCenter} 
+        setSelectedCarpark={() => {}}
+      />
+
       {/* Filter Button */}
       <img
         src="../Assets/filter-icon.jpg"
         alt="Filter"
-        onClick={() => setShowFilters(!showFilters)} // Toggle showFilters state
+        onClick={() => setShowFilters(!showFilters)}
         style={{
           position: "fixed",
           bottom: "20px",
@@ -76,7 +101,7 @@ const ListViewComponent = ({ user }) => {
         }}
       />
 
-      {/* Filters Panel (CarparkFiltersPanel) */}
+      {/* Filters Panel */}
       {showFilters && (
         <div className="filters-panel">
           <h3>Filters</h3>
@@ -104,18 +129,9 @@ const ListViewComponent = ({ user }) => {
         </div>
       )}
 
-      {/* Search Bar */}
-      <input
-        type="text"
-        placeholder="Search by address"
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        className="search-input"
-      />
-
       {/* List of Carparks */}
       <ul className="carpark-list">
-        {filteredCarparks.map((carpark) => (
+        {filteredCarparksByAddress.map((carpark) => (
           <li key={carpark.carparkNumber} className="carpark-item">
             <div className="carpark-summary" onClick={() => handleExpandCarpark(carpark.carparkNumber)}>
               <span>{carpark.address}</span>

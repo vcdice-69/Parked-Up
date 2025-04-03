@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLogin } from "../../Control/useLogin";
+import { useLogin } from "../../Control/Hooks/useLogin";
 
 const Login = () => {
   const navigate = useNavigate();

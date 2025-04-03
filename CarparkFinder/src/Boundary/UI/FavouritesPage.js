@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { fetchFavourites, removeFavourite } from "../../Entity/FavouritesBackendInteraction.js"; 
-import { fetchCarparkDataWithAvailability } from "../../Entity/CarparkDataService.js"; 
+import { fetchFavourites, removeFavourite } from "../../Control/FavouritesAPI.js"; 
+import { fetchCarparkDataWithAvailability } from "../../Control/CarparkDataFormatter.js"; 
 
 const Favourites = ({ user }) => {
   const [favourites, setFavourites] = useState([]);

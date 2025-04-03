@@ -1,5 +1,5 @@
 import React from "react";
-import { useSignup } from "../../Control/useSignup";
+import { useSignup } from "../../Control/Hooks/useSignup";
 
 const Signup = () => {
   const { username, setUsername, email, setEmail, phoneNumber, setPhoneNumber, password, setPassword, handleSignup } = useSignup();

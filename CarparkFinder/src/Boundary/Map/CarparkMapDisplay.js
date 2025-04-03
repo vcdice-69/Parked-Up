@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { GoogleMap, Marker, OverlayView } from "@react-google-maps/api";
-import { bubbleStyle } from "../../Utility/bubbleStyle";
+import { BubbleStyle } from "../../Entity/BubbleStyle";
 import CarparkInfoWindow from "./CarparkInfoWindow";
-import { addFavourite, removeFavourite } from "../../Entity/FavouritesBackendInteraction";
+import { addFavourite, removeFavourite } from "../../Control/FavouritesAPI";
 
 const MapView = ({ center, filteredCarparks, setSelectedCarpark, selectedCarpark, user, handleFavouriteToggle, userFavourites }) => {
   return (
@@ -21,7 +21,7 @@ const MapView = ({ center, filteredCarparks, setSelectedCarpark, selectedCarpark
           position={{ lat: carpark.lat, lng: carpark.lng }}
           mapPaneName={OverlayView.OVERLAY_MOUSE_TARGET}
         >
-          <div style={bubbleStyle(carpark.availableLots)} onClick={() => setSelectedCarpark(carpark)}>
+          <div style={BubbleStyle(carpark.availableLots)} onClick={() => setSelectedCarpark(carpark)}>
             <span>{carpark.availableLots}</span>
           </div>
         </OverlayView>

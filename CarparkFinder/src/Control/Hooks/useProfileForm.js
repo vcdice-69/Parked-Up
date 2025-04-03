@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { ProfileService } from "./ProfileService";
-import { validateProfileUpdate } from "./ProfileValidation";
+import { ProfileService } from "../ProfileUpdateService";
+import { validateProfileUpdate } from "../ProfileUpdateValidation";
 
 export const useProfileForm = (user, setUser) => {
   const [formData, setFormData] = useState({

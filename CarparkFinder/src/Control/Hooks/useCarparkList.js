@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
-import { getDistance } from "../Utility/DistanceCalculator";
-import { filterCarparksByAddress } from "./CarparkService";
+import { getDistance } from "../DistanceCalculator";
+import { filterCarparksByAddress } from "../CarparkController";
 
 export const useCarparkList = (
   carparks,

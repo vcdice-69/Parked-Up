@@ -1,7 +1,7 @@
 import React from "react";
-import { useLogin } from "../../Control/useLogin"; 
-import { deleteAccount } from "../../Control/DeleteAccountService";
-import { useProfileForm } from "../../Control/useProfileForm";
+import { useLogin } from "../../Control/Hooks/useLogin"; 
+import { deleteAccount } from "../../Control/DeleteAccountAPI";
+import { useProfileForm } from "../../Control/Hooks/useProfileForm";
 
 const ManageProfile = () => {
   const { user, setUser, handleLogout } = useLogin();

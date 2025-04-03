@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { fetchCarparkDataWithAvailability } from '../Entity/CarparkDataService';
+import { fetchCarparkDataWithAvailability } from '../CarparkDataFormatter';
 
 export const useCarparks = () => {
   const [carparks, setCarparks] = useState([]);

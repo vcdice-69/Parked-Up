@@ -1,4 +1,4 @@
-import { fetchCarparkDataWithAvailability } from "../Entity/CarparkDataService";
+import { fetchCarparkDataWithAvailability } from "./CarparkDataFormatter";
 
 export const getCarparks = async () => {
   return await fetchCarparkDataWithAvailability();

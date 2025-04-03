@@ -1,13 +1,13 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
 import "./App.css";
-import MapViewComponent from "./Boundary/Map/MapViewComponent";
-import ListViewComponent from "./Boundary/ListViewComponent";
-import Signup from "./Boundary/UI/SignUpUI";
-import LoginUI from "./Boundary/UI/LoginUI";
-import Favorites from "./Boundary/UI/FavouritesUI";
-import ManageProfile from "./Boundary/UI/ManageProfileUI";
-import { useLogin } from "./Control/useLogin";
+import MapViewComponent from "./Boundary/Map/CarparkMapContainer";
+import ListViewComponent from "./Boundary/List/ListViewComponent";
+import Signup from "./Boundary/UI/SignupPage";
+import LoginUI from "./Boundary/UI/LoginPage";
+import Favorites from "./Boundary/UI/FavouritesPage";
+import ManageProfile from "./Boundary/UI/ManageProfilePage";
+import { useLogin } from "./Control/Hooks/useLogin";
 import NavigationBar from "./Boundary/UI/NavigationBar"; // NEW COMPONENT
 
 function App() {

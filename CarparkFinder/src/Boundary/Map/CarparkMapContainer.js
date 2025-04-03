@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { LoadScript } from '@react-google-maps/api';
-import { useGeolocation } from '../../Control/useGeolocation';
-import { useCarparks } from '../../Control/useCarparks';
-import { useFavourites } from '../../Control/useFavourites';
-import { useCarparkFilter } from '../../Entity/CarparkFilterService'; // ✅ Import carpark filter hook
-import MapView from './MapView';
+import { useGeolocation } from '../../Control/Hooks/useGeolocation';
+import { useCarparks } from '../../Control/Hooks/useCarparks';
+import { useFavourites } from '../../Control/Hooks/useFavourites';
+import { useCarparkFilter } from '../../Control/Hooks/useCarparkFilter'; // ✅ Import carpark filter hook
+import MapView from './CarparkMapDisplay';
 import CarparkFiltersPanel from '../CarparkFiltersPanel';
 import CarparkSearch from '../CarparkSearch';
 

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { getDistance } from "../Utility/DistanceCalculator";
+import { getDistance } from "../DistanceCalculator";
 
 const carparkTypes = [
   "BASEMENT CAR PARK",

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { signupUser } from "./SignUpAuthService";
+import { signupUser } from "../SignUpAuthService";
 
 /**
  * Custom Hook for handling the signup form.
