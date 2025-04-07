@@ -161,7 +161,7 @@ const ListViewComponent = ({ user }) => {
                 cursor: "pointer"
               }}
             >
-              <div>
+              <div style={{ textAlign:"left"}}>
                 <strong>{carpark.address}</strong><br />
                 <span style={{ fontSize: "13px", color: "#555" }}>{carpark.availableLots} lots available</span><br />
                 <span style={{ fontSize: "13px", color: "#777" }}>
