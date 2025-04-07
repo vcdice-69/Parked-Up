@@ -9,7 +9,7 @@ function NavigationBar({ user }) {
   return (
     <nav style={styles.nav}>
       <div style={styles.navContent}>
-        <h1 style={styles.logo}>Carpark Finder</h1>
+        <h1 style={styles.logo}>Parked Up</h1>
         <ul style={styles.navLinks}>
           <li style={styles.navItem}><Link to="/" style={styles.link}>Map View</Link></li>
           <li style={styles.navItem}><Link to="/list-view" style={styles.link}>List View</Link></li>
