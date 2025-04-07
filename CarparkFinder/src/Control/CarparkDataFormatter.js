@@ -1,4 +1,3 @@
-// CarparkDataService.js
 import { fetchAvailability } from './CarparkAvailabilityAPI';
 import { fetchCarparkData } from './CarparkDataFetcher';
 import { convertCoordToLatLong } from './CoordinateConverter';

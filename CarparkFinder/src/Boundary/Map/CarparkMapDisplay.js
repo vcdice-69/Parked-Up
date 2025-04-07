@@ -1,8 +1,6 @@
-import React, { useState, useEffect } from "react";
 import { GoogleMap, Marker, OverlayView } from "@react-google-maps/api";
 import { BubbleStyle } from "../../Entity/BubbleStyle";
 import CarparkInfoWindow from "./CarparkInfoWindow";
-import { addFavourite, removeFavourite } from "../../Control/FavouritesAPI";
 
 const MapView = ({ center, filteredCarparks, setSelectedCarpark, selectedCarpark, user, handleFavouriteToggle, userFavourites }) => {
   return (

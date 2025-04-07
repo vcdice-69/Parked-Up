@@ -1,6 +1,6 @@
 import React from "react";
 import { InfoWindow } from "@react-google-maps/api";
-import { handleGetDirections} from "../../Control/DirectionsService"
+import { handleGetDirections } from "../../Control/DirectionsService"
 
 const CarparkInfoWindow = ({ selectedCarpark, onClose, userFavourites, handleFavouriteToggle }) => {
   if (!selectedCarpark) return null;
