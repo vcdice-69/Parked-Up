@@ -6,6 +6,7 @@ import { useCarparkList } from "../../Control/Hooks/useCarparkList";
 import { useCarparkFilter } from "../../Control/Hooks/useCarparkFilter";
 import CarparkFiltersPanel from "../CarparkFiltersPanel"; 
 import CarparkSearch from "../CarparkSearch"; // ✅ Import CarparkSearch
+import { handleGetDirections } from "../../Control/DirectionsService";
 
 const ListViewComponent = ({ user }) => {
   const [carparks, setCarparks] = useState([]);
@@ -150,6 +151,7 @@ const ListViewComponent = ({ user }) => {
                 <p><strong>Available Lots:</strong> {carpark.availableLots}</p>
                 <p><strong>Gantry Height:</strong> {carpark.gantryHeight ? carpark.gantryHeight + "m" : "N/A"}</p>
                 <p><strong>Carpark Type:</strong> {carpark.carparkType}</p>
+                <button onClick={() => handleGetDirections(carpark)}>Directions</button>
               </div>
             )}
           </li>

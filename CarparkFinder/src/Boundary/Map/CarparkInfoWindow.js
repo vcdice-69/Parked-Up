@@ -1,5 +1,6 @@
 import React from "react";
 import { InfoWindow } from "@react-google-maps/api";
+import { handleGetDirections} from "../../Control/DirectionsService"
 
 const CarparkInfoWindow = ({ selectedCarpark, onClose, userFavourites, handleFavouriteToggle }) => {
   if (!selectedCarpark) return null;
@@ -32,6 +33,7 @@ const CarparkInfoWindow = ({ selectedCarpark, onClose, userFavourites, handleFav
         >
           {isFavourited ? "❤️" : "♡"} {/* Change heart based on favourited status */}
         </button>
+        <button onClick={() => handleGetDirections(selectedCarpark)}>Directions</button>
       </div>
     </InfoWindow>
   );

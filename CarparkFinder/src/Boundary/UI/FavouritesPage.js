@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { fetchFavourites, removeFavourite } from "../../Control/FavouritesAPI.js"; 
 import { fetchCarparkDataWithAvailability } from "../../Control/CarparkDataFormatter.js"; 
+import { handleGetDirections } from "../../Control/DirectionsService.js";
 
 const Favourites = ({ user }) => {
   const [favourites, setFavourites] = useState([]);
@@ -68,6 +69,7 @@ const Favourites = ({ user }) => {
                   <p><strong>Availability:</strong> {carpark.availableLots}</p>
                   <p><strong>Gantry Height:</strong> {carpark.gantryHeight || "N/A"}</p>
                   <button onClick={() => handleRemoveFavourite(carpark.carparkNumber)}>Remove</button>
+                  <button onClick={() => handleGetDirections(carpark)}>Directions</button>
                 </div>
               )}
             </li>
