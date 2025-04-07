@@ -75,13 +75,16 @@ const ListViewComponent = ({ user }) => {
 
   return (
     <div className="list-view-container" style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      <CarparkSearch
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        filteredCarparksByAddress={filteredCarparksByAddress}
-        setCenter={setCenter} 
-        setSelectedCarpark={() => {}}
-      />
+      {/* Carpark Search directly below the logo */}
+      <div style={{ position: "absolute", top: "101px", left: "50%", transform: "translateX(-50%)", width: "80%", textAlign: "center" }}>
+        <CarparkSearch
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          filteredCarparksByAddress={filteredCarparksByAddress}
+          setCenter={setCenter} 
+          setSelectedCarpark={() => {}}
+        />
+      </div>
 
       <img
         src="../Assets/filter-icon.jpg"

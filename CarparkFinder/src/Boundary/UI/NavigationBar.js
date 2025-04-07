@@ -43,7 +43,7 @@ const styles = {
     color: "white",
     padding: "10px 0", // Add padding for top and bottom
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    //position: "fixed", // Fix it to the top of the screen
+    //position: "static", // Fix it to the top of the screen
     top: 0,
     left: 0,
     zIndex: 1000, // Ensure it stays above other content
