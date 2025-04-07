@@ -33,7 +33,19 @@ const CarparkInfoWindow = ({ selectedCarpark, onClose, userFavourites, handleFav
         >
           {isFavourited ? "❤️" : "♡"} {/* Change heart based on favourited status */}
         </button>
-        <button onClick={() => handleGetDirections(selectedCarpark)}>Directions</button>
+        <button 
+          onClick={() => handleGetDirections(selectedCarpark)}
+          style={{
+            marginTop: "10px",
+            padding: "8px 12px",
+            backgroundColor: "#4285F4",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer"
+          }}>
+            Directions
+            </button>
       </div>
     </InfoWindow>
   );

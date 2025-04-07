@@ -28,7 +28,7 @@ const Favourites = ({ user }) => {
     };
 
     fetchUserFavourites();
-  }, [user?.email]); // ✅ Re-fetch when `user.email` changes
+  }, [user?.email]);
 
   const handleRemoveFavourite = async (carparkNumber) => {
     if (!user?.email) return;
@@ -48,28 +48,88 @@ const Favourites = ({ user }) => {
   };
 
   return (
-    <div>
-      <h2>Your Favourite Carparks</h2>
+    <div className="favourites-page-container" style={{ padding: "1rem" }}>
+      <h2 style={{ textAlign: "center", marginBottom: "2rem" }}>Your Favourite Carparks</h2>
       {favourites.length === 0 ? (
-        <p>No favourite carparks saved.</p>
+        <p style={{ textAlign: "center" }}>No favourite carparks saved.</p>
       ) : (
-        <ul>
+        <ul style={{ listStyle: "none", padding: 0 }}>
           {favourites.map((carpark) => (
-            <li key={carpark.carparkNumber}>
-              <div onClick={() => setSelectedCarpark(carpark.carparkNumber)}>
-                <h3>Carpark {carpark.carparkNumber}</h3>
+            <li key={carpark.carparkNumber} style={{
+              marginBottom: "1rem",
+              border: "1px solid #ccc",
+              borderRadius: "10px",
+              padding: "1rem",
+              boxShadow: "0 4px 8px rgba(0,0,0,0.1)"
+            }}>
+              <div
+                onClick={() => setSelectedCarpark(carpark.carparkNumber)}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  cursor: "pointer"
+                }}
+              >
+                <h3 style={{ margin: 0 }}>{carpark.address}</h3>
+                <span style={{ fontSize: "24px" }}>📍</span>
               </div>
 
               {selectedCarpark === carpark.carparkNumber && (
-                <div className="carpark-details-dropdown">
-                  <button onClick={() => setSelectedCarpark(null)}>Close</button>
+                <div
+                  className="carpark-details-dropdown"
+                  style={{
+                    marginTop: "1rem",
+                    backgroundColor: "#f9f9f9",
+                    padding: "1rem",
+                    borderRadius: "8px",
+                  }}
+                >
+                  <button
+                    onClick={() => setSelectedCarpark(null)}
+                    style={{
+                      float: "right",
+                      background: "none",
+                      border: "none",
+                      fontSize: "18px",
+                      cursor: "pointer"
+                    }}
+                  >
+                    ✖️
+                  </button>
                   <p><strong>Carpark Number:</strong> {carpark.carparkNumber}</p>
                   <p><strong>Address:</strong> {carpark.address}</p>
                   <p><strong>Carpark Type:</strong> {carpark.carparkType}</p>
                   <p><strong>Availability:</strong> {carpark.availableLots}</p>
                   <p><strong>Gantry Height:</strong> {carpark.gantryHeight || "N/A"}</p>
-                  <button onClick={() => handleRemoveFavourite(carpark.carparkNumber)}>Remove</button>
-                  <button onClick={() => handleGetDirections(carpark)}>Directions</button>
+                  <div style={{ display: "flex", gap: "10px", marginTop: "1rem" }}>
+                    <button
+                      onClick={() => handleRemoveFavourite(carpark.carparkNumber)}
+                      style={{
+                        padding: "8px 12px",
+                        border: "none",
+                        borderRadius: "6px",
+                        backgroundColor: "#ff4d4d",
+                        color: "white",
+                        cursor: "pointer"
+                      }}
+                    >
+                      Remove
+                    </button>
+                    <button
+                      onClick={() => handleGetDirections(carpark)}
+                      style={{
+                        padding: "8px 12px",
+                        border: "none",
+                        borderRadius: "6px",
+                        backgroundColor: "#4CAF50",
+                        color: "white",
+                        cursor: "pointer"
+                      }}
+                    >
+                      Directions
+                    </button>
+                  </div>
                 </div>
               )}
             </li>

@@ -5,7 +5,7 @@ import { useGeolocation } from "../../Control/Hooks/useGeolocation";
 import { useCarparkList } from "../../Control/Hooks/useCarparkList";
 import { useCarparkFilter } from "../../Control/Hooks/useCarparkFilter";
 import CarparkFiltersPanel from "../CarparkFiltersPanel"; 
-import CarparkSearch from "../CarparkSearch"; // ✅ Import CarparkSearch
+import CarparkSearch from "../CarparkSearch"; 
 import { handleGetDirections } from "../../Control/DirectionsService";
 
 const ListViewComponent = ({ user }) => {
@@ -18,7 +18,6 @@ const ListViewComponent = ({ user }) => {
 
   const { center: userLocation, setCenter } = useGeolocation();
 
-  // Filters
   const {
     availableLotsFilter,
     setAvailableLotsFilter,
@@ -28,7 +27,6 @@ const ListViewComponent = ({ user }) => {
     toggleCarparkType,
   } = useCarparkFilter(carparks);
 
-  // Use carpark list with filters applied
   const { filteredCarparks } = useCarparkList(
     carparks,
     userLocation,
@@ -38,7 +36,6 @@ const ListViewComponent = ({ user }) => {
     selectedCarparkTypes
   );
 
-  // Apply search filter after other filters
   const [filteredCarparksByAddress, setFilteredCarparksByAddress] = useState(filteredCarparks);
 
   useEffect(() => {
@@ -77,8 +74,7 @@ const ListViewComponent = ({ user }) => {
   };
 
   return (
-    <div className="list-view-container">
-      {/* ✅ Integrate CarparkSearch */}
+    <div className="list-view-container" style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
       <CarparkSearch
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
@@ -87,7 +83,6 @@ const ListViewComponent = ({ user }) => {
         setSelectedCarpark={() => {}}
       />
 
-      {/* Filter Button */}
       <img
         src="../Assets/filter-icon.jpg"
         alt="Filter"
@@ -99,26 +94,35 @@ const ListViewComponent = ({ user }) => {
           width: "50px",
           height: "50px",
           cursor: "pointer",
+          borderRadius: "10px",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.3)"
         }}
       />
 
-      {/* Filters Panel */}
       {showFilters && (
-        <div className="filters-panel">
-          <h3>Filters</h3>
-          {/* Max Distance Filter */}
-          <label>Max Distance (km):
+        <div
+          className="filters-panel"
+          style={{
+            background: "#fff",
+            padding: "20px",
+            borderRadius: "10px",
+            boxShadow: "0 2px 12px rgba(0,0,0,0.2)",
+            marginBottom: "20px"
+          }}
+        >
+          <h3 style={{ marginBottom: "10px" }}>Filters</h3>
+          <label style={{ display: "block", marginBottom: "10px" }}>
+            Max Distance (km): {distanceFilter} km
             <input
               type="range"
               min="1"
               max="50"
               value={distanceFilter}
               onChange={(e) => setDistanceFilter(Number(e.target.value))}
+              style={{ width: "100%" }}
             />
-            <span>{distanceFilter} km</span>
           </label>
 
-          {/* Carpark Filter Panel */}
           <CarparkFiltersPanel
             availableLotsFilter={availableLotsFilter}
             setAvailableLotsFilter={setAvailableLotsFilter}
@@ -130,28 +134,83 @@ const ListViewComponent = ({ user }) => {
         </div>
       )}
 
-      {/* List of Carparks */}
-      <ul className="carpark-list">
+      <ul className="carpark-list" style={{ listStyleType: "none", padding: 0 }}>
         {filteredCarparksByAddress.map((carpark) => (
-          <li key={carpark.carparkNumber} className="carpark-item">
-            <div className="carpark-summary" onClick={() => handleExpandCarpark(carpark.carparkNumber)}>
-              <span>{carpark.address}</span>
-              <span>{carpark.availableLots} lots available</span>
-              <span>{carpark.distance ? carpark.distance.toFixed(2) + " km away" : "Distance unavailable"}</span>
-              <button onClick={() => handleFavouriteToggle(carpark.carparkNumber)}>
+          <li
+            key={carpark.carparkNumber}
+            className="carpark-item"
+            style={{
+              background: "#f9f9f9",
+              marginBottom: "15px",
+              padding: "15px",
+              borderRadius: "8px",
+              boxShadow: "0 1px 5px rgba(0, 0, 0, 0.1)",
+              transition: "all 0.2s ease-in-out"
+            }}
+          >
+            <div
+              className="carpark-summary"
+              onClick={() => handleExpandCarpark(carpark.carparkNumber)}
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                cursor: "pointer"
+              }}
+            >
+              <div>
+                <strong>{carpark.address}</strong><br />
+                <span style={{ fontSize: "13px", color: "#555" }}>{carpark.availableLots} lots available</span><br />
+                <span style={{ fontSize: "13px", color: "#777" }}>
+                  {carpark.distance ? `${carpark.distance.toFixed(2)} km away` : "Distance unavailable"}
+                </span>
+              </div>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleFavouriteToggle(carpark.carparkNumber);
+                }}
+                style={{
+                  fontSize: "20px",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  color: favourites.includes(carpark.carparkNumber) ? "red" : "gray"
+                }}
+              >
                 {favourites.includes(carpark.carparkNumber) ? "❤️" : "♡"}
               </button>
             </div>
 
-            {/* Expandable Carpark Details */}
             {expandedCarpark === carpark.carparkNumber && (
-              <div className="carpark-details">
+              <div
+                className="carpark-details"
+                style={{
+                  marginTop: "10px",
+                  paddingTop: "10px",
+                  borderTop: "1px solid #ddd",
+                  fontSize: "14px"
+                }}
+              >
                 <p><strong>Carpark Number:</strong> {carpark.carparkNumber}</p>
                 <p><strong>Address:</strong> {carpark.address}</p>
                 <p><strong>Available Lots:</strong> {carpark.availableLots}</p>
-                <p><strong>Gantry Height:</strong> {carpark.gantryHeight ? carpark.gantryHeight + "m" : "N/A"}</p>
+                <p><strong>Gantry Height:</strong> {carpark.gantryHeight ? `${carpark.gantryHeight}m` : "N/A"}</p>
                 <p><strong>Carpark Type:</strong> {carpark.carparkType}</p>
-                <button onClick={() => handleGetDirections(carpark)}>Directions</button>
+                <button
+                  onClick={() => handleGetDirections(carpark)}
+                  style={{
+                    marginTop: "10px",
+                    padding: "8px 12px",
+                    backgroundColor: "#4285F4",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "5px",
+                    cursor: "pointer"
+                  }}
+                >
+                  Directions
+                </button>
               </div>
             )}
           </li>
