@@ -8,6 +8,18 @@ import MapView from './CarparkMapDisplay';
 import CarparkFiltersPanel from '../CarparkFiltersPanel';
 import CarparkSearch from '../CarparkSearch';
 
+/**
+ * MapViewComponent Component
+ *
+ * This component serves as the container for the Carpark Map View, integrating user geolocation, carpark data, 
+ * search, filtering, and favourites functionality. It renders the map, search panel, filters panel, and updates the carpark list
+ * based on the filters and search criteria.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Object} props.user - The currently logged-in user object. This is used to manage user-specific data like favourites.
+ * @returns {JSX.Element} The rendered map view component with filters and search.
+ */
 const MapViewComponent = ({ user }) => {
   const { center, setCenter } = useGeolocation();
   const carparks = useCarparks();
@@ -16,7 +28,7 @@ const MapViewComponent = ({ user }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const { userFavourites, handleFavouriteToggle } = useFavourites(user);
 
-  // ✅ Integrate the filtering system
+  // Integrate the filtering system
   const {
     filteredCarparks, // Carparks after applying filters
     availableLotsFilter,
@@ -25,9 +37,9 @@ const MapViewComponent = ({ user }) => {
     setGantryHeightFilter,
     selectedCarparkTypes,
     toggleCarparkType,
-  } = useCarparkFilter(carparks, center, 100); // Default distance filter of 10 km
+  } = useCarparkFilter(carparks, center, 100);
 
-  // ✅ Apply address search filter *after* other filters
+  // Apply address search filter *after* other filters
   const [filteredCarparksByAddress, setFilteredCarparksByAddress] = useState(filteredCarparks);
 
   useEffect(() => {
@@ -45,7 +57,7 @@ const MapViewComponent = ({ user }) => {
   return (
     <LoadScript googleMapsApiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}>
       <div style={{ display: 'flex', height: '100vh', position: 'relative' }}>
-        {/* ✅ Filter Toggle Button */}
+        {/* Filter Toggle Button */}
         <img
           src="../Assets/filter-icon.jpg"
           alt="Filter"
@@ -63,7 +75,7 @@ const MapViewComponent = ({ user }) => {
           }}
         />
 
-        {/* ✅ Pass correct filter states & functions to CarparkFiltersPanel */}
+        {/* Pass correct filter states & functions to CarparkFiltersPanel */}
         {showFilters && (
           <CarparkFiltersPanel
             availableLotsFilter={availableLotsFilter}
@@ -75,7 +87,7 @@ const MapViewComponent = ({ user }) => {
           />
         )}
 
-        {/* ✅ Address Search Input */}
+        {/* Address Search Input */}
         <CarparkSearch
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
@@ -84,7 +96,7 @@ const MapViewComponent = ({ user }) => {
           setSelectedCarpark={setSelectedCarpark}
         />
 
-        {/* ✅ Pass correctly filtered carparks to MapView */}
+        {/* Pass correctly filtered carparks to MapView */}
         <MapView
           center={center}
           filteredCarparks={filteredCarparksByAddress}

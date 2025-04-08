@@ -6,8 +6,10 @@ import { signupUser } from "../SignUpAuthService";
  * Custom Hook for handling the signup form.
  * 
  * This hook manages the form state and handles user signup via API requests.
+ * It manages the state for username, email, phone number, and password,
+ * and provides a function to handle the signup process.
  * 
- * @returns {Object} An object containing:
+ * @returns {Object} An object containing the following:
  * - `username` (string): The entered username.
  * - `setUsername` (function): Updates the username state.
  * - `email` (string): The entered email.
@@ -28,10 +30,12 @@ export const useSignup = () => {
   /**
    * Handles the signup form submission.
    * 
-   * Sends a POST request to the server with user details.
-   * If successful, navigates to the login page.
+   * This function sends a POST request to the server with user details
+   * and handles the response. If the signup is successful, the user is
+   * redirected to the login page. If there's an error, an alert is shown.
    * 
    * @param {Event} e - The form submission event.
+   * @returns {void}
    */
   const handleSignup = async (e) => {
     e.preventDefault();

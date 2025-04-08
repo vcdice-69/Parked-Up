@@ -2,6 +2,18 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useLogin } from "../../Control/Hooks/useLogin"; // Import authentication logic
 
+/**
+ * NavigationBar Component
+ *
+ * This component renders a navigation bar with links to different pages of the app, including Map View,
+ * List View, and Favorites. If the user is logged in, it displays a profile icon and a logout button.
+ * If the user is not logged in, it shows links for Signup and Login.
+ *
+ * @param {Object} props - The properties passed to the component.
+ * @param {Object} props.user - The currently logged-in user, or `null` if no user is logged in.
+ * 
+ * @returns {JSX.Element} The rendered NavigationBar component.
+ */
 function NavigationBar({ user }) {
   const navigate = useNavigate();
   const { handleLogout } = useLogin();
@@ -36,6 +48,9 @@ function NavigationBar({ user }) {
   );
 }
 
+/**
+ * The styles for the NavigationBar component.
+ */
 const styles = {
   nav: {
     width: "100%", // Full width of the screen
@@ -43,7 +58,6 @@ const styles = {
     color: "white",
     padding: "10px 0", // Add padding for top and bottom
     boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-    //position: "static", // Fix it to the top of the screen
     top: 0,
     left: 0,
     zIndex: 1000, // Ensure it stays above other content

@@ -3,6 +3,15 @@ import { useLogin } from "../../Control/Hooks/useLogin";
 import { deleteAccount } from "../../Control/DeleteAccountAPI";
 import { useProfileForm } from "../../Control/Hooks/useProfileForm";
 
+/**
+ * ManageProfile Component
+ *
+ * This component allows users to view and update their profile information (username, email, phone number, password).
+ * It displays the current user details and provides input fields for updating them. It also provides an option to delete the account.
+ * If the user is not logged in, it displays a prompt to log in.
+ *
+ * @returns {JSX.Element} The rendered ManageProfile page component.
+ */
 const ManageProfile = () => {
   const { user, setUser, handleLogout } = useLogin();
   const { formData, handleChange, handleSubmit } = useProfileForm(user, setUser);
@@ -119,6 +128,9 @@ const ManageProfile = () => {
   );
 };
 
+/**
+ * Input field style for form elements.
+ */
 const inputStyle = {
   width: "100%",
   padding: "10px",
@@ -128,6 +140,9 @@ const inputStyle = {
   fontSize: "16px",
 };
 
+/**
+ * Style for the primary update button.
+ */
 const primaryButtonStyle = {
   padding: "12px",
   backgroundColor: "#4CAF50",
@@ -138,6 +153,9 @@ const primaryButtonStyle = {
   cursor: "pointer",
 };
 
+/**
+ * Style for the delete account button.
+ */
 const deleteButtonStyle = {
   marginTop: "20px",
   padding: "12px",

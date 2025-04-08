@@ -2,6 +2,21 @@ import React from "react";
 import { InfoWindow } from "@react-google-maps/api";
 import { handleGetDirections } from "../../Control/DirectionsService"
 
+/**
+ * CarparkInfoWindow Component
+ *
+ * The `CarparkInfoWindow` is a component used to display detailed information about a selected carpark on the map.
+ * It shows the carpark's number, address, available lots, gantry height, and carpark type. Additionally, users can
+ * toggle the carpark as a favourite and get directions to the carpark via a button.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Object} props.selectedCarpark - The selected carpark object containing details like carpark number, address, availability, etc.
+ * @param {Function} props.onClose - Callback function to close the InfoWindow when the close button is clicked.
+ * @param {Set} props.userFavourites - A set containing the carpark numbers of the user's favourite carparks.
+ * @param {Function} props.handleFavouriteToggle - A function to toggle the favourite status of the carpark.
+ * @returns {JSX.Element|null} The rendered InfoWindow displaying carpark details, or `null` if no carpark is selected.
+ */
 const CarparkInfoWindow = ({ selectedCarpark, onClose, userFavourites, handleFavouriteToggle }) => {
   if (!selectedCarpark) return null;
 
