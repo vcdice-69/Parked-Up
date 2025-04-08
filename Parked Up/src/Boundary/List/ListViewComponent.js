@@ -4,8 +4,8 @@ import { getUserFavourites, toggleFavourite } from "../../Control/FavouritesServ
 import { useGeolocation } from "../../Control/Hooks/useGeolocation";
 import { useCarparkList } from "../../Control/Hooks/useCarparkList";
 import { useCarparkFilter } from "../../Control/Hooks/useCarparkFilter";
-import CarparkFiltersPanel from "../CarparkFiltersPanel"; 
-import CarparkSearch from "../CarparkSearch"; 
+import CarparkFiltersPanel from "../CarparkFiltersPanel";
+import CarparkSearch from "../CarparkSearch";
 import { handleGetDirections } from "../../Control/DirectionsService";
 
 const ListViewComponent = ({ user }) => {
@@ -25,7 +25,7 @@ const ListViewComponent = ({ user }) => {
     setGantryHeightFilter,
     selectedCarparkTypes,
     toggleCarparkType,
-  } = useCarparkFilter(carparks);
+  } = useCarparkFilter(); // ✅ Just manages state
 
   const { filteredCarparks } = useCarparkList(
     carparks,
@@ -75,17 +75,25 @@ const ListViewComponent = ({ user }) => {
 
   return (
     <div className="list-view-container" style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
-      {/* Carpark Search directly below the logo */}
-      <div style={{ position: "absolute", top: "101px", left: "50%", transform: "translateX(-50%)", width: "80%", textAlign: "center" }}>
+      {/* Search box */}
+      <div style={{
+        position: "absolute",
+        top: "101px",
+        left: "50%",
+        transform: "translateX(-50%)",
+        width: "80%",
+        textAlign: "center"
+      }}>
         <CarparkSearch
           searchQuery={searchQuery}
           setSearchQuery={setSearchQuery}
           filteredCarparksByAddress={filteredCarparksByAddress}
-          setCenter={setCenter} 
+          setCenter={setCenter}
           setSelectedCarpark={() => {}}
         />
       </div>
 
+      {/* Filter toggle icon */}
       <img
         src="../Assets/filter-icon.jpg"
         alt="Filter"
@@ -102,6 +110,7 @@ const ListViewComponent = ({ user }) => {
         }}
       />
 
+      {/* Filters Panel */}
       {showFilters && (
         <div
           className="filters-panel"
@@ -137,6 +146,7 @@ const ListViewComponent = ({ user }) => {
         </div>
       )}
 
+      {/* Carpark List */}
       <ul className="carpark-list" style={{ listStyleType: "none", padding: 0 }}>
         {filteredCarparksByAddress.map((carpark) => (
           <li
@@ -161,9 +171,11 @@ const ListViewComponent = ({ user }) => {
                 cursor: "pointer"
               }}
             >
-              <div style={{ textAlign:"left"}}>
+              <div style={{ textAlign: "left" }}>
                 <strong>{carpark.address}</strong><br />
-                <span style={{ fontSize: "13px", color: "#555" }}>{carpark.availableLots} lots available</span><br />
+                <span style={{ fontSize: "13px", color: "#555" }}>
+                  {carpark.availableLots} lots available
+                </span><br />
                 <span style={{ fontSize: "13px", color: "#777" }}>
                   {carpark.distance ? `${carpark.distance.toFixed(2)} km away` : "Distance unavailable"}
                 </span>
@@ -185,6 +197,7 @@ const ListViewComponent = ({ user }) => {
               </button>
             </div>
 
+            {/* Expand Details */}
             {expandedCarpark === carpark.carparkNumber && (
               <div
                 className="carpark-details"

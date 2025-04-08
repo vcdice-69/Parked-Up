@@ -1,6 +1,5 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { getDistance } from "../DistanceCalculator";
-import { filterCarparksByAddress } from "../CarparkController";
 
 export const useCarparkList = (
   carparks,
@@ -10,36 +9,42 @@ export const useCarparkList = (
   gantryHeightFilter,
   selectedCarparkTypes
 ) => {
-  const [searchTerm, setSearchTerm] = useState("");
-
   const filteredCarparks = useMemo(() => {
-    return filterCarparksByAddress(carparks, searchTerm)
+    return carparks
       .map((carpark) => ({
         ...carpark,
-        distance: userLocation ? getDistance(userLocation.lat, userLocation.lng, carpark.lat, carpark.lng) : null,
+        distance: userLocation
+          ? getDistance(userLocation.lat, userLocation.lng, carpark.lat, carpark.lng)
+          : null,
       }))
       .filter((carpark) => {
         // Filter by distance
-        const withinDistance = carpark.distance <= distanceFilter;
+        const withinDistance =
+          carpark.distance === null || carpark.distance <= distanceFilter;
 
-        // Apply available lots filter
-        const matchesAvailableLots = availableLotsFilter
-          ? carpark.availableLots > 0
-          : true;
+        // Filter by available lots
+        const matchesAvailableLots =
+          availableLotsFilter === 0 ||
+          (typeof carpark.availableLots === 'number' && carpark.availableLots >= availableLotsFilter);
 
-        // Apply gantry height filter
-        const matchesGantryHeight = gantryHeightFilter
-          ? carpark.gantryHeight >= gantryHeightFilter
-          : true;
+        // Filter by gantry height
+        const matchesGantryHeight =
+          gantryHeightFilter === null ||
+          carpark.gantryHeight >= gantryHeightFilter;
 
-        // Apply carpark type filter
+        // Filter by carpark type
         const matchesCarparkType =
           selectedCarparkTypes.length === 0 ||
           selectedCarparkTypes.includes(carpark.carparkType);
 
-        return withinDistance && matchesAvailableLots && matchesGantryHeight && matchesCarparkType;
+        return (
+          withinDistance &&
+          matchesAvailableLots &&
+          matchesGantryHeight &&
+          matchesCarparkType
+        );
       })
-      .sort((a, b) => (a.distance || 0) - (b.distance || 0)); // Sort by distance
+      .sort((a, b) => (a.distance || 0) - (b.distance || 0));
   }, [
     carparks,
     userLocation,
@@ -47,8 +52,7 @@ export const useCarparkList = (
     availableLotsFilter,
     gantryHeightFilter,
     selectedCarparkTypes,
-    searchTerm,
   ]);
 
-  return { filteredCarparks, searchTerm, setSearchTerm };
+  return { filteredCarparks };
 };

@@ -25,7 +25,7 @@ const MapViewComponent = ({ user }) => {
     setGantryHeightFilter,
     selectedCarparkTypes,
     toggleCarparkType,
-  } = useCarparkFilter(carparks, center, 100); // Default distance filter of 10 km
+  } = useCarparkFilter(carparks, center, 100);
 
   // ✅ Apply address search filter *after* other filters
   const [filteredCarparksByAddress, setFilteredCarparksByAddress] = useState(filteredCarparks);
