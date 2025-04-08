@@ -313,7 +313,7 @@ def get_all_favs(email):
 # add_fav("marvin@gmail.com", "ABC123")
 
 # part 6 (delete fav)
-# delete_fav("ethan@gmail.com", "ACM")
+# delete_fav("toto@gmail.com", "")
 
 # part 7 (get all favs)
 # print(get_all_favs("marvin@gmail.com"))
