@@ -175,6 +175,7 @@ def new_acc(username, email, phone_no, password):
 
         except Exception as e:
             print(e)
+            return False
     
     else:
         return False
@@ -371,6 +372,7 @@ def add_fav(email, carpark_no):
 
     except Exception as e:
         print(e)
+        return False
 
 def delete_fav(email, carpark_no):
     """
@@ -396,6 +398,7 @@ def delete_fav(email, carpark_no):
     
     except Exception as e:
         print(e)
+        return False
 
 def get_all_favs(email):
     """
@@ -428,3 +431,4 @@ def get_all_favs(email):
 
     except Exception as e:
         print(e)
+        return False
