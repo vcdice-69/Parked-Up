@@ -427,7 +427,4 @@ def get_all_favs(email):
             return fav_list
 
     except Exception as e:
-<<<<<<< HEAD
-        print(e)
-=======
         print(e)
