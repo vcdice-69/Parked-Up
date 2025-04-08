@@ -1,5 +1,22 @@
 import React from "react";
 
+/**
+ * CarparkFiltersPanel Component
+ * 
+ * This component provides a set of filters for carparks, including filters for available lots,
+ * gantry height, and carpark types. It allows the user to adjust these filters via input controls,
+ * such as a range slider and checkboxes.
+ * 
+ * @param {Object} props - The component props.
+ * @param {number} props.availableLotsFilter - The current filter for available lots (minimum available lots).
+ * @param {function} props.setAvailableLotsFilter - A function to update the `availableLotsFilter` state.
+ * @param {number} props.gantryHeightFilter - The current filter for gantry height (minimum height in meters).
+ * @param {function} props.setGantryHeightFilter - A function to update the `gantryHeightFilter` state.
+ * @param {Array} props.selectedCarparkTypes - A list of selected carpark types for filtering.
+ * @param {function} props.toggleCarparkType - A function to toggle the inclusion/exclusion of carpark types in the filter.
+ * 
+ * @returns {JSX.Element} The rendered CarparkFiltersPanel component.
+ */
 const CarparkFiltersPanel = ({
   availableLotsFilter,
   setAvailableLotsFilter,

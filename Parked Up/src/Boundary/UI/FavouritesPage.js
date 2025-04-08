@@ -3,10 +3,28 @@ import { fetchFavourites, removeFavourite } from "../../Control/FavouritesAPI.js
 import { fetchCarparkDataWithAvailability } from "../../Control/CarparkDataFormatter.js"; 
 import { handleGetDirections } from "../../Control/DirectionsService.js";
 
+/**
+ * Favourites Page Component
+ *
+ * This component displays the user's favourite carparks, fetched from the backend API, and allows the user to remove carparks from their favourites list.
+ * It also provides an option to get directions to a carpark.
+ * 
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Object} props.user - The current logged-in user object containing user data (e.g., email).
+ * @returns {JSX.Element} The rendered favourites page component.
+ */
 const Favourites = ({ user }) => {
   const [favourites, setFavourites] = useState([]);
   const [selectedCarpark, setSelectedCarpark] = useState(null);
 
+  /**
+   * Fetches the user's favourite carparks when the component mounts.
+   * 
+   * This function makes an API call to fetch the user's favourite carparks and filters them with the available carpark data.
+   * 
+   * @returns {void}
+   */
   useEffect(() => {
     const fetchUserFavourites = async () => {
       if (!user?.email) return;
@@ -30,6 +48,14 @@ const Favourites = ({ user }) => {
     fetchUserFavourites();
   }, [user?.email]);
 
+  /**
+   * Removes a carpark from the user's favourites.
+   * 
+   * This function makes an API call to remove a carpark from the user's favourites and updates the UI accordingly.
+   * 
+   * @param {string} carparkNumber - The number of the carpark to be removed from favourites.
+   * @returns {void}
+   */
   const handleRemoveFavourite = async (carparkNumber) => {
     if (!user?.email) return;
     

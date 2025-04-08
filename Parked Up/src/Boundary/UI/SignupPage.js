@@ -1,6 +1,15 @@
 import React from "react";
 import { useSignup } from "../../Control/Hooks/useSignup";
 
+/**
+ * Signup Component
+ *
+ * This component renders the signup page where users can create an account by providing their
+ * username, email, phone number, and password. Upon form submission, the `handleSignup` function
+ * is called to handle the signup logic.
+ *
+ * @returns {JSX.Element} The rendered Signup component.
+ */
 const Signup = () => {
   const { username, setUsername, email, setEmail, phoneNumber, setPhoneNumber, password, setPassword, handleSignup } = useSignup();
 
@@ -54,6 +63,9 @@ const Signup = () => {
   );
 };
 
+/**
+ * The styles for the Signup page container.
+ */
 const pageContainerStyle = {
   display: "flex",
   flexDirection: "column",
@@ -67,12 +79,18 @@ const pageContainerStyle = {
   boxShadow: "0 4px 12px rgba(0,0,0,0.1)",
 };
 
+/**
+ * The styles for the heading of the Signup page.
+ */
 const headingStyle = {
   fontSize: "2rem",
   marginBottom: "2rem",
   textAlign: "center",
 };
 
+/**
+ * The styles for the form element in the Signup page.
+ */
 const formStyle = {
   display: "flex",
   flexDirection: "column",
@@ -80,6 +98,9 @@ const formStyle = {
   width: "100%",
 };
 
+/**
+ * The styles for the input fields in the Signup form.
+ */
 const inputStyle = {
   padding: "12px",
   borderRadius: "6px",
@@ -87,6 +108,9 @@ const inputStyle = {
   fontSize: "16px",
 };
 
+/**
+ * The styles for the signup button.
+ */
 const submitButtonStyle = {
   padding: "12px",
   backgroundColor: "#4CAF50",
@@ -97,11 +121,17 @@ const submitButtonStyle = {
   cursor: "pointer",
 };
 
+/**
+ * The styles for the login prompt text below the form.
+ */
 const loginPromptStyle = {
   marginTop: "1rem",
   textAlign: "center",
 };
 
+/**
+ * The styles for the link to the login page.
+ */
 const loginLinkStyle = {
   color: "#4CAF50",
   textDecoration: "none",

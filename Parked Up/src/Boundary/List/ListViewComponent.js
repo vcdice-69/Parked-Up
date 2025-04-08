@@ -8,6 +8,19 @@ import CarparkFiltersPanel from "../CarparkFiltersPanel";
 import CarparkSearch from "../CarparkSearch";
 import { handleGetDirections } from "../../Control/DirectionsService";
 
+/**
+ * ListViewComponent Component
+ *
+ * The `ListViewComponent` displays a list of carparks with filtering and search capabilities.
+ * Users can toggle carparks as favourites and expand them to view additional details. The component
+ * integrates filters such as distance, available lots, gantry height, and carpark type. 
+ * Additionally, users can get directions to a selected carpark from their location.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Object} props.user - The logged-in user object containing user details, including email, which is used to manage favourites.
+ * @returns {JSX.Element} The rendered ListView displaying carpark items, filters, and search input.
+ */
 const ListViewComponent = ({ user }) => {
   const [carparks, setCarparks] = useState([]);
   const [favourites, setFavourites] = useState([]);

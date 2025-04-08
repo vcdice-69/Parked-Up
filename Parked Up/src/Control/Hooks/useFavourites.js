@@ -1,9 +1,24 @@
 import { useState, useEffect } from 'react';
 import { fetchFavourites, addFavourite, removeFavourite } from '../FavouritesAPI';
 
+/**
+ * Custom Hook for managing user favourites.
+ * 
+ * This hook fetches the list of user favourites from the API, stores them in a Set
+ * for efficient lookup, and allows toggling the user's favourites with optimistic UI updates.
+ * 
+ * @param {Object} user - The user object, which should contain the `email` property.
+ * @returns {Object} An object containing:
+ * - `userFavourites` (Set): A set of carpark numbers that the user has marked as favourites.
+ * - `handleFavouriteToggle` (function): A function to toggle the favourite status of a carpark.
+ */
 export const useFavourites = (user) => {
   const [userFavourites, setUserFavourites] = useState(new Set()); // Use Set for better performance
 
+  /**
+   * Fetches the user's favourites from the API and updates the state.
+   * This effect runs whenever the `user` object changes.
+   */
   useEffect(() => {
     if (user?.email) {
       const fetchData = async () => {
@@ -20,6 +35,14 @@ export const useFavourites = (user) => {
     }
   }, [user]);
 
+  /**
+   * Toggles the favourite status of a given carpark.
+   * 
+   * This function updates the local state optimistically before sending the API request.
+   * If the API request fails, it reverts the local state.
+   * 
+   * @param {string} carparkNo - The carpark number to be toggled as favourite or unfavourite.
+   */
   const handleFavouriteToggle = async (carparkNo) => {
     if (!user?.email) {
       console.error("User not logged in.");
