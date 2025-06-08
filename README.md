@@ -1,4 +1,5 @@
 # 2006-FDAF-G2
+[Demo Video Youtube Link](https://youtu.be/licMqQKBqWM?si=0Mfvd3cKF0YRUPGQ)
 
 ## NTU AY2024/25 Semester 2 (Spring) SC2006 Project
 Tutorial Group FDAF Team 2:<br />
